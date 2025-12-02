@@ -30,13 +30,6 @@ function computeVpd(temperatureC: number, humidityPct: number): number {
   return Number(vpd.toFixed(3));
 }
 
-// soilRaw: 0–4095 -> 0–100%（简单线性，后续可以用实验拟合）
-function convertSoilRawToPct(soilRaw: number): number {
-  if (soilRaw <= 0) return 0;
-  if (soilRaw >= 4095) return 100;
-  return Number(((soilRaw / 4095) * 100).toFixed(1));
-}
-
 // lightRaw -> lux（这里先按1:1或者你后面根据BH1750等公式改）
 function convertLightRawToLux(lightRaw: number): number {
   if (lightRaw <= 0) return 0;
@@ -121,7 +114,8 @@ export function useSensorData() {
         // 你给的结构里：
         // raw.tempSensor.objectTemp = 土壤湿度 ADC
         // raw.lightSensor.rawData    = 光照
-        const soilRaw = json.raw.tempSensor.objectTemp;   // e.g., 8429
+
+        const soilRaw = msg.raw.tempSensor.objectTemp;
         const soilPct = Number((soilRaw / 100).toFixed(1));   // → 84.3%
 
         const lightRaw: number = msg.raw?.lightSensor?.rawData ?? 0;

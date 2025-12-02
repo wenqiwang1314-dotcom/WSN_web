@@ -207,3 +207,40 @@ process.on("SIGINT", () => {
     process.exit(0);
   });
 });
+
+
+// 简易用户数据库（可改为文件/数据库）
+// 先内置一个测试账号：admin / admin123
+let users = {
+  admin: { password: "admin123" },
+};
+
+
+// 注册
+app.post('/api/register', (req, res) => {
+    const { username, password } = req.body;
+
+    if (users[username]) {
+        return res.status(400).json({ error: "User already exists" });
+    }
+
+    users[username] = { password };
+    return res.json({ success: true });
+});
+
+// 登录
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+
+    if (!users[username] || users[username].password !== password) {
+        return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // 简易 token
+    const token = Buffer.from(`${username}:${Date.now()}`).toString("base64");
+
+    return res.json({ token, username });
+});
+
+
+

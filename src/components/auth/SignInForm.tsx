@@ -1,27 +1,86 @@
-import React from "react";
-import TextInput from "../common/TextInput";
-import Button from "../common/Button";
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { useAuth } from "../../store/AuthContext";
+import "./SignInForm.css";
 
-const SignInForm: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+export default function SignInForm() {
+  const { login } = useAuth();
+  const [username, setUser] = useState("");
+  const [password, setPass] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // TODO: 这里先简单跳转到 dashboard，后续再接后端鉴权
-    window.location.href = "/dashboard";
+    setError("");
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Login failed");
+        return;
+      }
+
+      login(data.token, data.username);
+      window.location.href = "/CC1310_WEB/dashboard";
+    } catch (err) {
+      console.error(err);
+      setError("Network error");
+    }
   };
 
   return (
-    <form className="signin-form" onSubmit={handleSubmit}>
-      <TextInput label="Email" type="email" placeholder="you@example.com" />
-      <TextInput label="Password" type="password" placeholder="••••••••" />
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-logo">GT</div>
+        <h1 className="auth-title">Greenhouse Digital Twin</h1>
+        <p className="auth-subtitle">
+          Smart IoT & Digital Twin for Modern Greenhouses
+        </p>
 
-      <div className="signin-actions">
-        <Button type="submit">Sign in</Button>
-        <button className="link-button" type="button">
-          Forgot password?
-        </button>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <label className="auth-label">
+            Username
+            <input
+              className="auth-input"
+              value={username}
+              onChange={(e) => setUser(e.target.value)}
+              placeholder="admin"
+            />
+          </label>
+
+          <label className="auth-label">
+            Password
+            <input
+              className="auth-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPass(e.target.value)}
+              placeholder="••••••••"
+            />
+          </label>
+
+          {error && <div className="auth-error">{error}</div>}
+
+          <button className="auth-button" type="submit">
+            Sign in
+          </button>
+        </form>
+
+        <div className="auth-footer">
+          <span className="auth-footer-text">
+            Demo account: <strong>admin / admin123</strong>
+          </span>
+        </div>
       </div>
-    </form>
+    </div>
   );
-};
-
-export default SignInForm;
+}

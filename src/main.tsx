@@ -3,9 +3,17 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles/globals.css";
 import "./styles/theme.css";
+import { AuthProvider } from "./store/AuthContext";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter basename="/CC1310_WEB">
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,13 +1,17 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import AppShell from "../components/layout/AppShell";
 import MetricCard from "../components/cards/MetricCard";
 import { useSensorData } from "../hooks/useSensorData";
 
-const ZonePage: React.FC = () => {
+const ZonePage = () => {
   const { zoneId } = useParams<{ zoneId: string }>();
+
   const { getNodeByZoneId } = useSensorData();
   const node = getNodeByZoneId(zoneId);
+
+  const zoneLabel = zoneId ? `Zone ${zoneId}` : "Zone";
+
+
 
   if (!node) {
     return (
@@ -50,8 +54,8 @@ const ZonePage: React.FC = () => {
           <div className="zone-metric-grid">
             <MetricCard
               label="Temperature"
-              value={temperatureF.toFixed(1)}
-              unit="°F"
+              unit="°C"
+              value={temperatureC.toFixed(1)} // 原来写了 temperatureF 的地方改成 temperatureC
               hint="Canopy air temperature"
             />
             <MetricCard

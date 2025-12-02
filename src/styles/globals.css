@@ -1,0 +1,599 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: #f4f5f7;
+  color: #111827;
+}
+
+.app-root {
+  min-height: 100vh;
+}
+
+/* 登录页居中布局 */
+.app-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 48px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  width: 420px;
+  max-width: 90vw;
+}
+
+.logo-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1d9bf0, #0f6ad8);
+  margin-right: 12px;
+}
+
+.logo-title {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.logo-subtitle {
+  font-size: 16px;
+}
+
+.login-title {
+  margin: 12px 0 4px;
+  font-size: 24px;
+}
+
+.login-subtitle {
+  margin: 0 0 24px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* 表单元素 */
+.input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.input-label {
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #374151;
+}
+
+.input-control {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+}
+
+.input-control:focus {
+  border-color: #1d9bf0;
+  box-shadow: 0 0 0 1px rgba(29, 155, 240, 0.2);
+}
+
+.primary-button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  background: #1d9bf0;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  filter: brightness(0.95);
+}
+
+.signin-actions {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  color: #1d9bf0;
+  cursor: pointer;
+}
+
+/* ===== Dashboard Layout ===== */
+
+.dashboard-root {
+  padding: 24px 32px;
+}
+
+.dashboard-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.dashboard-title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.dashboard-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.dashboard-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.topbar-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+.topbar-text {
+  font-size: 13px;
+}
+
+/* 主体两栏布局：左侧卡片 + 右侧温室 */
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+  gap: 20px;
+}
+
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Metric Card 样式 */
+.metric-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.metric-header {
+  margin-bottom: 8px;
+}
+
+.metric-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.metric-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.metric-value {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.metric-unit {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.metric-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* 状态色（后面可以更精细） */
+.metric-ok {
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.metric-warn {
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  background: linear-gradient(135deg, #fffbeb, #ffffff);
+}
+
+.metric-alert {
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: linear-gradient(135deg, #fef2f2, #ffffff);
+}
+
+/* VPD 卡片 */
+.vpd-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.vpd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vpd-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.vpd-subtitle {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.vpd-current {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.vpd-value {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.vpd-unit {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.vpd-chart-placeholder {
+  margin-top: 14px;
+  height: 120px;
+  border-radius: 12px;
+  background: repeating-linear-gradient(
+    to right,
+    #eff3ff,
+    #eff3ff 2px,
+    transparent 2px,
+    transparent 10px
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.vpd-chart-lines {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.08);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 10px 12px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.vpd-chart-label {
+  background: rgba(59, 130, 246, 0.08);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+/* 右侧温室卡片 */
+.greenhouse-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.greenhouse-header {
+  margin-bottom: 12px;
+}
+
+.greenhouse-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.greenhouse-subtitle {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.greenhouse-body {
+  position: relative;
+  flex: 1;
+  border-radius: 18px;
+  background: radial-gradient(circle at top, #e0f2fe, #eef2ff);
+  overflow: hidden;
+}
+
+/* 温室轮廓（占位） */
+.greenhouse-outline {
+  position: absolute;
+  inset: 14% 18% 14% 18%;
+  border: 2px solid rgba(30, 64, 175, 0.35);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.greenhouse-inner {
+  width: 70%;
+  height: 60%;
+  border-radius: 999px;
+  border: 2px dashed rgba(96, 165, 250, 0.6);
+}
+
+/* Sensor Tag 气泡 */
+.sensor-tag {
+  position: absolute;
+  min-width: 120px;
+  max-width: 180px;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 10px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+  font-size: 11px;
+}
+
+.sensor-top-left {
+  top: 10%;
+  left: 8%;
+}
+
+.sensor-top-right {
+  top: 16%;
+  right: 6%;
+}
+
+.sensor-bottom-left {
+  bottom: 10%;
+  left: 12%;
+}
+
+.sensor-tag-label {
+  color: #6b7280;
+}
+
+.sensor-tag-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.sensor-tag-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sensor-tag-unit {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* 响应式简化：窄屏时上下布局 */
+@media (max-width: 900px) {
+  .dashboard-root {
+    padding: 16px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===== AppShell Top Bar ===== */
+
+.app-shell {
+  min-height: 100vh;
+  background: #f0f2f5;
+}
+
+.shell-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
+}
+
+.shell-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.shell-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shell-logo-text {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.shell-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.shell-nav-link {
+  font-size: 14px;
+  color: #6b7280;
+  text-decoration: none;
+  padding-bottom: 4px;
+}
+
+.shell-nav-active {
+  color: #111827;
+  border-bottom: 2px solid #1d9bf0;
+}
+
+.shell-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 80px;
+}
+
+.icon-button {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #4b5563;
+}
+
+.shell-main {
+  padding: 20px 32px 32px;
+}
+
+/* ===== Zone Detail Page ===== */
+
+.zone-root {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.zone-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.zone-title {
+  margin: 0;
+  font-size: 32px;
+}
+
+.zone-greenhouse-thumb {
+  width: 220px;
+  height: 140px;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zone-greenhouse-image {
+  width: 80%;
+  height: 70%;
+  border-radius: 20px;
+  background: radial-gradient(circle at top, #e0f2fe, #e5e7eb);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.4);
+}
+
+.zone-metrics-row {
+  margin-bottom: 18px;
+}
+
+.zone-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.zone-bottom-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.zone-info-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.zone-info-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.zone-info-value {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.zone-info-hint {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.zone-info-icon .zone-info-gauge {
+  margin-top: 10px;
+  width: 70%;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #22c55e, #facc15, #f97316);
+}
+
+/* 占位页样式 */
+.page-placeholder {
+  max-width: 800px;
+  margin: 40px auto;
+}
+
+.sensor-tag-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+

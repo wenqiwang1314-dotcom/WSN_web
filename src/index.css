@@ -1,0 +1,184 @@
+/* ========== 基础 Reset ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  color: #0f172a;
+  background: radial-gradient(circle at top, #e0f2fe 0, #f9fafb 55%, #eef2ff 100%);
+}
+
+/* 去掉默认按钮/输入样式的一些奇怪边框 */
+button,
+input {
+  font-family: inherit;
+}
+
+/* ========== 登录页样式（gh- 前缀，避免污染其它组件） ========== */
+
+.gh-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.gh-login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 32px 28px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.16);
+}
+
+.gh-logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  margin-bottom: 18px;
+}
+
+.gh-logo-mark {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.gh-title {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.gh-subtitle {
+  margin: 0 0 24px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.gh-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gh-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gh-field-label {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.gh-input {
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gh-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
+}
+
+.gh-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.gh-primary-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
+}
+
+.gh-primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.45);
+}
+
+.gh-primary-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.gh-link-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 13px;
+  color: #2563eb;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.gh-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* ========== Dashboard 一些通用类（可选，用不上也无所谓） ========== */
+
+.dashboard-root {
+  min-height: 100vh;
+  padding: 24px 24px 32px;
+}
+
+.dashboard-grid {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.dashboard-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+}
+
+.dashboard-card-title {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.dashboard-card-value {
+  font-size: 28px;
+  font-weight: 600;
+}

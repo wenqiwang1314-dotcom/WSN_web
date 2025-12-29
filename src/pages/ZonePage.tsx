@@ -4,7 +4,7 @@ import MetricCard from "../components/cards/MetricCard";
 import { useSensorData } from "../hooks/useSensorData";
 
 const ZonePage = () => {
-  const { zoneId } = useParams<{ zoneId: string }>();
+  const { zoneId } = useParams();
 
   const { getNodeByZoneId } = useSensorData();
   const node = getNodeByZoneId(zoneId);

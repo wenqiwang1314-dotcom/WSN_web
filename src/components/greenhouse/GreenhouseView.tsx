@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import SensorTag from "./SensorTag";
 import type { NodeSensorSnapshot } from "../../hooks/useSensorData";
@@ -57,41 +57,35 @@ function defaultName(nodeId: string, type: NodeType) {
 }
 
 const GreenhouseView: React.FC<GreenhouseViewProps> = ({ nodes }) => {
-  const [registry, setRegistry] = useState<Record<string, NodeMeta>>({});
+  const registry = useMemo(() => {
+    const stored = loadRegistry();
+    if (!nodes || nodes.length === 0) return stored;
 
-  // 启动加载一次 localStorage
-  useEffect(() => {
-    setRegistry(loadRegistry());
-  }, []);
+    const next = { ...stored };
 
-  // 每次 nodes 更新，自动 upsert registry（extAddr 为主键）
-  useEffect(() => {
-    if (!nodes || nodes.length === 0) return;
+    for (const n of nodes) {
+      if (!n.extAddr) continue;
+      const ext = n.extAddr;
+      const type = inferType(n);
+      const seenAt = n.ts;
 
-    setRegistry((prev) => {
-      const next = { ...prev };
-      const now = Date.now();
+      const existed = next[ext];
+      next[ext] = {
+        extAddr: ext,
+        nodeId: n.nodeId,
+        name: existed?.name ?? defaultName(n.nodeId, type),
+        type: existed?.type ?? type,
+        firstSeen: existed?.firstSeen ?? seenAt,
+        lastSeen: seenAt,
+      };
+    }
 
-      for (const n of nodes) {
-        if (!n.extAddr) continue;
-        const ext = n.extAddr;
-        const type = inferType(n);
-
-        const existed = next[ext];
-        next[ext] = {
-          extAddr: ext,
-          nodeId: n.nodeId,
-          name: existed?.name ?? defaultName(n.nodeId, type),
-          type: existed?.type ?? type,
-          firstSeen: existed?.firstSeen ?? now,
-          lastSeen: now,
-        };
-      }
-
-      saveRegistry(next);
-      return next;
-    });
+    return next;
   }, [nodes]);
+
+  useEffect(() => {
+    saveRegistry(registry);
+  }, [registry]);
 
   // 稳定排序（按 nodeId）
   const sorted = useMemo(() => {

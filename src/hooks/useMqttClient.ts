@@ -1,16 +1,13 @@
 // src/hooks/useMqttClient.ts
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { MqttClient } from "mqtt";
 import { createMqttClient } from "../services/mqttClient";
 
 export function useMqttClient() {
   const [isConnected, setIsConnected] = useState(false);
-  const clientRef = useRef<MqttClient | null>(null);
+  const [client] = useState<MqttClient>(() => createMqttClient());
 
   useEffect(() => {
-    const client = createMqttClient();
-    clientRef.current = client;
-
     client.on("connect", () => {
       console.log("[MQTT] connected");
       setIsConnected(true);
@@ -31,9 +28,9 @@ export function useMqttClient() {
 
     return () => {
       client.end(true);
-      clientRef.current = null;
+      setIsConnected(false);
     };
-  }, []);
+  }, [client]);
 
-  return { client: clientRef.current, isConnected };
+  return { client, isConnected };
 }

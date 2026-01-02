@@ -18,6 +18,45 @@ export interface NodeSensorSnapshot {
   lightLux: number;
 }
 
+type RegistryEntry = {
+  name?: string;
+  type?: string;
+  [key: string]: unknown;
+};
+
+type LatestPayload = {
+  node_id?: string;
+  ext_addr?: string;
+  timestamp_ms?: number;
+  rssi_dbm?: number;
+  temp_c?: number;
+  humidity_pct?: number;
+  vpd_kpa?: number;
+  soil_raw?: number;
+  soil_pct?: number;
+  light_raw?: number;
+  light_lux?: number;
+};
+
+type MqttPayload = {
+  node_id?: string;
+  ext_addr?: string;
+  ts?: number;
+  rssi_dbm?: number;
+  sensors?: {
+    temperature_c?: number;
+    humidity_pct?: number;
+  };
+  raw?: {
+    tempSensor?: {
+      objectTemp?: number;
+    };
+    lightSensor?: {
+      rawData?: number;
+    };
+  };
+};
+
 function normalizeNodeId(nodeId: string): string {
   // 支持 "0x1", "0X01", "1", "01"
   const s = (nodeId || "").toLowerCase();
@@ -61,14 +100,18 @@ export function useSensorData() {
   // 索引：node_id -> ext_addr（用于 zone 页）
   const [extByNodeId, setExtByNodeId] = useState<Record<string, string>>({});
   // 注册表：ext_addr -> meta（name/type/caps...）
-  const [registryByExt, setRegistryByExt] = useState<Record<string, any>>({});
+  const [registryByExt, setRegistryByExt] = useState<Record<string, RegistryEntry>>({});
 
   const didRestoreRef = useRef(false);
 
   const refreshRegistry = useCallback(() => {
     fetch(`${API_BASE}/api/nodes`)
-      .then((res) => (res.ok ? res.json() : {}))
-      .then((reg) => setRegistryByExt(reg || {}))
+      .then((res) =>
+        res.ok
+          ? (res.json() as Promise<Record<string, RegistryEntry>>)
+          : Promise.resolve({} as Record<string, RegistryEntry>)
+      )
+      .then((reg) => setRegistryByExt(reg))
       .catch(() => {});
   }, []);
 
@@ -87,7 +130,7 @@ export function useSensorData() {
         if (!res.ok) throw new Error("No latest data");
         return res.json();
       })
-      .then((json) => {
+      .then((json: LatestPayload) => {
         // 如果 MQTT 已经写入了数据，就不要覆盖
         setNodesByExt((prev) => {
           if (Object.keys(prev).length > 0) return prev;
@@ -132,7 +175,7 @@ export function useSensorData() {
       if (topic !== MQTT_TOPIC_CC1310) return;
 
       try {
-        const msg = JSON.parse(payload.toString()) as any;
+        const msg = JSON.parse(payload.toString()) as MqttPayload;
 
         const nodeId: string = normalizeNodeId(msg.node_id ?? "unknown");
 

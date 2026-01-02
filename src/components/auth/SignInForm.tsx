@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { useAuth } from "../../store/AuthContext";
+import { useAuth } from "../../store/useAuth";
 import "./SignInForm.css";
 
 export default function SignInForm() {

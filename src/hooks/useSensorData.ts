@@ -18,6 +18,36 @@ export interface NodeSensorSnapshot {
   lightLux: number;
 }
 
+export type NodeRegistryEntry = {
+  ext_addr?: string;
+  node_id?: string;
+  name?: string;
+  type?: string;
+  capabilities?: string[];
+  first_seen?: number;
+  last_seen?: number;
+  last_rssi_dbm?: number;
+};
+
+type MqttPayload = {
+  node_id?: string;
+  ext_addr?: string;
+  ts?: number;
+  rssi_dbm?: number;
+  sensors?: {
+    temperature_c?: number;
+    humidity_pct?: number;
+  };
+  raw?: {
+    tempSensor?: {
+      objectTemp?: number;
+    };
+    lightSensor?: {
+      rawData?: number;
+    };
+  };
+};
+
 function normalizeNodeId(nodeId: string): string {
   // 支持 "0x1", "0X01", "1", "01"
   const s = (nodeId || "").toLowerCase();
@@ -61,7 +91,7 @@ export function useSensorData() {
   // 索引：node_id -> ext_addr（用于 zone 页）
   const [extByNodeId, setExtByNodeId] = useState<Record<string, string>>({});
   // 注册表：ext_addr -> meta（name/type/caps...）
-  const [registryByExt, setRegistryByExt] = useState<Record<string, any>>({});
+  const [registryByExt, setRegistryByExt] = useState<Record<string, NodeRegistryEntry>>({});
 
   const didRestoreRef = useRef(false);
 
@@ -132,7 +162,7 @@ export function useSensorData() {
       if (topic !== MQTT_TOPIC_CC1310) return;
 
       try {
-        const msg = JSON.parse(payload.toString()) as any;
+        const msg = JSON.parse(payload.toString()) as MqttPayload;
 
         const nodeId: string = normalizeNodeId(msg.node_id ?? "unknown");
 
